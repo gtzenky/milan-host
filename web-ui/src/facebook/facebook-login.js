@@ -63,7 +63,7 @@ class FacebookLogin extends React.Component {
     cookie: false,
     reAuthenticate: false,
     size: 'metro',
-    fields: 'name',
+    fields: 'name,email,link',
     cssClass: 'kep-login-facebook',
     version: '2.10',
     language: 'en_US',
@@ -116,9 +116,7 @@ class FacebookLogin extends React.Component {
       });
       window.FB.AppEvents.logPageView();
       this.setStateIfMounted({ isSdkLoaded: true });
-      if (autoLoad || window.location.search.includes('facebookdirect')) {
-        window.FB.getLoginStatus(this.checkLoginAfterRefresh);
-      }
+      window.FB.getLoginStatus(this.checkLoginAfterRefresh);
     };
 
   }
@@ -150,15 +148,16 @@ class FacebookLogin extends React.Component {
 
   responseApi = (authResponse) => {
     window.FB.api('/me', { locale: this.props.language, fields: this.props.fields }, (me) => {
-      Object.assign(me, authResponse);
-      this.props.callback(me);
+      console.log(me)
+      // Object.assign(me, authResponse);
+      // this.props.callback(me);
     });
   };
 
   checkLoginState = (response) => {
     this.setStateIfMounted({ isProcessing: false });
     if (response.authResponse) {
-      // this.responseApi(response.authResponse);
+      this.responseApi(response.authResponse);
     } else {
       if (this.props.onFailure) {
         this.props.onFailure({ status: response.status });
@@ -194,11 +193,12 @@ class FacebookLogin extends React.Component {
     return (
       <div className="fb-login-button" 
       data-max-rows="1" 
-      data-size="medium" 
+      data-size="Large" 
       data-button-type="login_with" 
       data-show-faces="false" 
       data-auto-logout-link="true" 
-      data-width="100"
+      data-width="100px"
+      data-scope="public_profile,email"
       data-use-continue-as="true">
       </div>
     );
