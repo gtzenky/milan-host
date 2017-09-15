@@ -2,35 +2,43 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import FacebookLogin from './facebook/facebook-login.js'
+import Header from './Header.js'
 
 class App extends Component {
   state = {users: []}
   
   componentDidMount() {
-
-    // fetch('/users')
-    //   .then(res => res.json())
-    //   .then(users => this.setState({ users }));
   }
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-          <FacebookLogin appId='1525174080892930' />
+    <div>
+      <Header/>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-4">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p><a className="btn btn-secondary" href="#" role="button">View details »</a></p>
+          </div>
+          <div className="col-md-4">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p><a className="btn btn-secondary" href="#" role="button">View details »</a></p>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <h1>Users</h1>
-        {this.state.users.map(user =>
-          <div key={user.id}>{user.username}</div>
-        )}
-
-        <h2>Butn</h2>
+          <div className="col-md-4">
+            <h2>Heading</h2>
+            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+            <p><a className="btn btn-secondary" href="#" role="button">View details »</a></p>
+          </div>
+        </div>
       </div>
+
+
+      <footer>
+        <p>© Company 2017</p>
+      </footer>
+    </div>
     );
   }
 }
