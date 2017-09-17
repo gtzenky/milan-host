@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import FacebookLogin from './facebook/facebook-login.js'
 import Header from './Header.js'
 
 class App extends Component {

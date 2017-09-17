@@ -63,7 +63,7 @@ class FacebookLogin extends React.Component {
     cookie: false,
     reAuthenticate: false,
     size: 'metro',
-    fields: 'name,email,link',
+    fields: 'name,email,link,picture',
     cssClass: 'kep-login-facebook',
     version: '2.10',
     language: 'en_US',
@@ -148,16 +148,15 @@ class FacebookLogin extends React.Component {
 
   responseApi = (authResponse) => {
     window.FB.api('/me', { locale: this.props.language, fields: this.props.fields }, (me) => {
-      console.log(me)
-      // Object.assign(me, authResponse);
-      // this.props.callback(me);
+      Object.assign(me, authResponse);
+      this.props.callback(me);
     });
   };
 
   checkLoginState = (response) => {
     this.setStateIfMounted({ isProcessing: false });
     if (response.authResponse) {
-      this.responseApi(response.authResponse);
+      this.responseApi(response);
     } else {
       if (this.props.onFailure) {
         this.props.onFailure({ status: response.status });
