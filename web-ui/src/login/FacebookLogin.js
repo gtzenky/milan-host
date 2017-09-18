@@ -1,36 +1,12 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
+import UserInfo from './UserInfo.js'
 
-const getIsMobile = () => {
-  let isMobile = false;
-
-  try {
-    isMobile = !!((window.navigator && window.navigator.standalone) || navigator.userAgent.match('CriOS') || navigator.userAgent.match(/mobile/i));
-  } catch (ex) {
-    // continue regardless of error
-  }
-
-  return isMobile;
-};
-
-// https://www.w3.org/TR/html5/disabled-elements.html#disabled-elements
-const _shouldAddDisabledProp = (tag) => [
-  'button',
-  'input',
-  'select',
-  'textarea',
-  'optgroup',
-  'option',
-  'fieldset',
-].indexOf((tag + '').toLowerCase()) >= 0;
 
 class FacebookLogin extends React.Component {
 
   static propTypes = {
-    isDisabled: PropTypes.bool,
-    callback: PropTypes.func,
-    appId: PropTypes.string.isRequired,
     xfbml: PropTypes.bool,
     cookie: PropTypes.bool,
     reAuthenticate: PropTypes.bool,
@@ -68,93 +44,35 @@ class FacebookLogin extends React.Component {
     version: '2.10',
     language: 'en_US',
     disableMobileRedirect: false,
-    isMobile: getIsMobile(),
     tag: 'button',
     onFailure: null,
   };
 
   state = {
-    isSdkLoaded: false,
-    isProcessing: false,
+    isLogin: false,
+    userInfo: {}
   };
 
+  constructor(props) {
+    super(props);
+    this.login = this.login.bind(this);
+  }
+
   componentDidMount() {
-    this._isMounted = true;
-    if (document.getElementById('facebook-jssdk')) {
-      this.sdkLoaded();
-      return;
-    }
-    this.setFbAsyncInit();
-    this.loadSdkAsynchronously();
-    let fbRoot = document.getElementById('fb-root');
-    if (!fbRoot) {
-      fbRoot = document.createElement('div');
-      fbRoot.id = 'fb-root';
-      document.body.appendChild(fbRoot);
-    }
+    window.FB.getLoginStatus(this.checkLoginAfterRefresh);
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  setStateIfMounted(state) {
-    if (this._isMounted) {
-      this.setState(state);
-    }
-  }
-
-  setFbAsyncInit() {
-    const { appId, xfbml, cookie, version, autoLoad } = this.props;
-    window.fbAsyncInit = () => {
-      window.FB.init({
-        "appId"      : appId,
-        "xfbml"      : true,
-        "status"     : true,
-        "cookie"     : true,
-        "version"    : `v${version}`
-      });
-      window.FB.AppEvents.logPageView();
-      this.setStateIfMounted({ isSdkLoaded: true });
-      window.FB.getLoginStatus(this.checkLoginAfterRefresh);
-    };
-
-  }
-
-  sdkLoaded() {
-    this.setState({ isSdkLoaded: true });
-  }
-
-  loadSdkAsynchronously() {
-    const { language } = this.props;
-    ((d, s, id) => {
-      const element = d.getElementsByTagName(s)[0];
-      const fjs = element;
-      let js = element;
-      if (d.getElementById(id)) { return; }
-      js = d.createElement(s); js.id = id;
-      js.src = `https://connect.facebook.net/${language}/sdk.js`;
-      fjs.parentNode.insertBefore(js, fjs);
-    })(document, 'script', 'facebook-jssdk');
-
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
   }
 
   responseApi = (authResponse) => {
     window.FB.api('/me', { locale: this.props.language, fields: this.props.fields }, (me) => {
       Object.assign(me, authResponse);
-      this.props.callback(me);
+      this.setState({isLogin: true, userInfo: me});
     });
   };
 
   checkLoginState = (response) => {
-    this.setStateIfMounted({ isProcessing: false });
     if (response.authResponse) {
       this.responseApi(response);
     } else {
@@ -170,35 +88,29 @@ class FacebookLogin extends React.Component {
     if (response.status === 'connected') {
       this.checkLoginState(response);
     } else {
-      window.FB.login(loginResponse => this.checkLoginState(loginResponse), true);
+      // window.FB.login(loginResponse => this.checkLoginState(loginResponse), true);
+      this.setState({isLogin: false, userInfo: {}});
     }
   };
 
-  // [AdGo] 20.11.2016 - coult not get container class to work
-  containerStyle() {
-    const style = { transition: 'opacity 0.5s' };
-    if (this.state.isProcessing || !this.state.isSdkLoaded || this.props.isDisabled) {
-      style.opacity = 0.6;
-    }
-    return Object.assign(style, this.props.containerStyle);
+  login = () => {
+    let scope = this.props.scope;
+    window.FB.login((response) => {
+      window.location.reload()
+    }, {
+      scope: scope, 
+    })
   }
 
   render() {
-    // const { cssClass, size, icon, textButton, typeButton, buttonStyle } = this.props;
-    // const optionalProps = {};
-    // if (this.props.isDisabled && _shouldAddDisabledProp(this.props.tag)) {
-    //   optionalProps.disabled = true;
-    // }
+    var btn = <button type="button" className="btn btn-primary" onClick={this.login}>Login</button>;
+    if (this.state.isLogin) {
+      var user = this.state.userInfo;
+      btn = <UserInfo name={user.name} email={user.email} avatar={user.picture.data.url} />;
+    }
     return (
-      <div className="fb-login-button" 
-      data-max-rows="1" 
-      data-size="Large" 
-      data-button-type="login_with" 
-      data-show-faces="false" 
-      data-auto-logout-link="true" 
-      data-width="100px"
-      data-scope="public_profile,email"
-      data-use-continue-as="true">
+      <div>
+        {btn}
       </div>
     );
   }

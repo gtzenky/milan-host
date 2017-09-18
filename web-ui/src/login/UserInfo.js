@@ -9,10 +9,23 @@ class UserInfo extends Component {
     avatar: PropTypes.string
   }
 
+  logout = () => {
+    window.FB.logout((response) => {
+      window.location.reload();
+    });
+  }
+
   render() {
     return (
-      <div>
-        <p>{this.props.name}</p>
+      <div className="btn-group">
+        <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {this.props.name} <span className="caret"></span>
+        </button>
+        <ul className="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li role="separator" className="divider"></li>
+          <li><a href="#" onClick={this.logout} >Logout</a></li>
+        </ul>
       </div>
     );
   }

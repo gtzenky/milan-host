@@ -52,7 +52,6 @@ class Header extends Component {
         </div>
         
         <div className="navbar-right">
-          {userInfo}
           <FacebookLogin appId="1525174080892930" 
             callback={this.loginStatus}
           />

@@ -4,10 +4,20 @@ import './App.css';
 import Header from './Header.js'
 
 class App extends Component {
-  state = {users: []}
+  state = {
+    isLogin: false
+  }
   
   componentDidMount() {
   }
+
+  checkLoginAfterRefresh = (response) => {
+    if (response.status === 'connected') {
+      this.setState({isLogin: true});
+    } else {
+      this.setState({isLogin: false});
+    }
+  };
 
   render() {
     return (
