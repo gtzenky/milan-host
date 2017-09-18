@@ -6,42 +6,16 @@ import UserInfo from './login/UserInfo.js'
 
 class Header extends Component {
   
-  state = {
-    isLogin: false,
-    userInfo: {}
-  }
-
   constructor(props) {
     super(props);
-    this.loginStatus = this.loginStatus.bind(this);
   }
 
 
   componentDidMount() {
   }
 
-  loginStatus(response) {
-    console.log(response);
-    if (response.status === "connected") {
-      this.setState({
-        isLogin: true,
-        userInfo: response
-      });
-    } else {
-      this.setState({
-        isLogin: false,
-        userInfo: {}
-      });
-    }
-  }
-
   render() {
 
-    var userInfo = '';
-    if (this.state.isLogin) {
-      var user = this.state.userInfo;
-      userInfo = <UserInfo name={user.name} email={user.email} avatar={user.picture.data.url} />;
-    }
     return (
     <nav className="navbar navbar-default">
       <div className="container-fluid">
@@ -52,9 +26,7 @@ class Header extends Component {
         </div>
         
         <div className="navbar-right">
-          <FacebookLogin appId="1525174080892930" 
-            callback={this.loginStatus}
-          />
+          <FacebookLogin/>
         </div>
       </div>
     </nav>

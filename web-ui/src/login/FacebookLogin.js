@@ -8,26 +8,9 @@ class FacebookLogin extends React.Component {
 
   static propTypes = {
     xfbml: PropTypes.bool,
-    cookie: PropTypes.bool,
-    reAuthenticate: PropTypes.bool,
     scope: PropTypes.string,
-    redirectUri: PropTypes.string,
-    textButton: PropTypes.string,
-    typeButton: PropTypes.string,
-    autoLoad: PropTypes.bool,
-    disableMobileRedirect: PropTypes.bool,
-    isMobile: PropTypes.bool,
     size: PropTypes.string,
     fields: PropTypes.string,
-    cssClass: PropTypes.string,
-    version: PropTypes.string,
-    icon: PropTypes.any,
-    language: PropTypes.string,
-    onClick: PropTypes.func,
-    containerStyle: PropTypes.object,
-    buttonStyle: PropTypes.object,
-    tag: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    onFailure: PropTypes.func,
   };
 
   static defaultProps = {
@@ -88,7 +71,6 @@ class FacebookLogin extends React.Component {
     if (response.status === 'connected') {
       this.checkLoginState(response);
     } else {
-      // window.FB.login(loginResponse => this.checkLoginState(loginResponse), true);
       this.setState({isLogin: false, userInfo: {}});
     }
   };
