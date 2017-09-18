@@ -8,7 +8,7 @@ module.exports = function (app, passport) {
   // HOME PAGE (with login links) ========
   // =====================================
   app.get('/login', function (req, res) {
-    res.render('index.ejs'); // load the index.ejs file
+    res.render('login.ejs'); // load the index.ejs file
   });
 
   // =====================================
@@ -42,11 +42,14 @@ module.exports = function (app, passport) {
   // =====================================
   // we will want this protected so you have to be logged in to visit
   // we will use route middleware to verify this (the isLoggedIn function)
-  // app.get('/profile', isLoggedIn, function (req, res) {
-  //   res.render('profile.ejs', {
-  //     user: req.user // get the user out of session and pass to template
-  //   });
-  // });
+  app.get('/profile', isLoggedIn, function (req, res) {
+    res.json({
+      user: req.user
+    })
+    // res.render('profile.ejs', {
+    //   user: req.user // get the user out of session and pass to template
+    // });
+  });
 
   // =====================================
   // LOGOUT ==============================
@@ -64,11 +67,7 @@ module.exports = function (app, passport) {
       successRedirect: '/profile',
       failureRedirect: '/'
   }));
-    
 
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/client/build/index.html'));
-  });
 };
 
 

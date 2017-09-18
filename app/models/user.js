@@ -6,7 +6,7 @@ var bcrypt   = require('bcrypt-nodejs');
 module.exports = {
 
   findById : (id, done) => {
-    done({
+    done(null, {
       name: 'Thong'
     });
   },
