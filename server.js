@@ -7,6 +7,7 @@ var app      = express();
 var port     = process.env.PORT || 3000;
 var passport = require('passport');
 var flash    = require('connect-flash');
+const path = require('path');
 
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -19,6 +20,8 @@ var session      = require('express-session');
 // mongoose.connect(configDB.url); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
