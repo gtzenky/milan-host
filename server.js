@@ -21,7 +21,7 @@ var session      = require('express-session');
 
 require('./config/passport')(passport); // pass passport for configuration
 
-// app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
