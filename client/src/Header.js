@@ -34,7 +34,6 @@ class Header extends Component {
           </a>
           <ul className="dropdown-menu">
             <li><a href="#">Action</a></li>
-            <li><a href="#">Something else here</a></li>
             <li role="separator" className="divider"></li>
             <li><a href="#">Logout</a></li>
           </ul>
