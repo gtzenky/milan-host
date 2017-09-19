@@ -6,6 +6,11 @@ import MainPane from './MainPane.js'
 
 class App extends Component {
   render() {
+    fetch(`/api/me?_=${new Date().getTime()}`).then(function(response) {
+      if (response.status === 200) {
+        console.log(response.json());
+      }
+    });
     return (
       <div>
         <Header />

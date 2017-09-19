@@ -42,19 +42,6 @@ module.exports = function (app, passport) {
   // =====================================
   // we will want this protected so you have to be logged in to visit
   // we will use route middleware to verify this (the isLoggedIn function)
-  app.get('/profile', isLoggedIn, function (req, res) {
-    // res.json({
-    //   user: req.user
-    // })
-    // res.render('profile.ejs', {
-    //   user: req.user // get the user out of session and pass to template
-    // });
-    if (app.settings.env === 'development') {
-      res.redirect('http://localhost:3001');
-    } else {
-      res.redirect('/');
-    }
-  });
 
   // =====================================
   // LOGOUT ==============================
@@ -69,9 +56,17 @@ module.exports = function (app, passport) {
   // handle the callback after facebook has authenticated the user
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
-      successRedirect: '/profile',
+      successRedirect: '/',
       failureRedirect: '/'
   }));
+
+  app.get('/api/me', function (req, res) {
+    if (req.isAuthenticated()) {
+      res.json(req.user);
+    } else {
+      res.json({});
+    }
+  });
 
 };
 
@@ -81,9 +76,12 @@ module.exports = function (app, passport) {
 function isLoggedIn(req, res, next) {
 
   // if user is authenticated in the session, carry on 
-  if (req.isAuthenticated())
+  if (req.isAuthenticated()) {
+    console.log(`Authenticated - user: ${JSON.stringify(req.user)}.`);
     return next();
-
-  // if they aren't redirect them to the home page
-  res.redirect('/login');
+  } else {
+    // if they aren't redirect them to the home page
+    console.log('Redirect to /login.');
+    res.redirect('/login');
+  }
 }
