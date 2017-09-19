@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MatchVote from './components/MatchVote.js'
+import MatchVotePane from './app/match-vote/MatchVotePane.js'
 
 class MainPane extends Component {
 
@@ -9,7 +9,7 @@ class MainPane extends Component {
     return (
       <div className="content"> 
         <div>
-          <MatchVote />
+          <MatchVotePane />
         </div>
       </div>
     );
