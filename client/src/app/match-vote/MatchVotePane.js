@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VoteBoard from './VoteBoard.js'
-
-import Utils from './Utils.js';
+import Panel from './../common/Panel.js'
 
 class MatchVotePane extends Component {
 
@@ -75,20 +74,21 @@ class MatchVotePane extends Component {
       }
       submitBoard = <p> {result} </p>;
     }
-    return (
-      <div className="panel panel-primary">
-        <div className="panel-heading">
-          <h3 className="panel-title">Dự Đoán kết quả</h3>
-        </div>
-        <div className="panel-body">
-          <VoteBoard home={home} away={away} onVote={this.vote} />
-        </div>
-          {submitBoard}
-          <button type="button" className="btn btn-primary" 
-            disabled={vote == this.state.selectedVote || startTime.getTime() <= new Date().getTime() } 
-            onClick={this.submitVote} >Update</button>
-          <button type="button" className="btn btn-defaut" onClick={this.reset}>Reset</button>
+
+    var content = (
+      <div>
+        <VoteBoard home={home} away={away} onVote={this.vote} />
+        {submitBoard}
+        <button type="button" className="btn btn-primary" 
+          disabled={vote == this.state.selectedVote || startTime.getTime() <= new Date().getTime() } 
+          onClick={this.submitVote} >Update</button>
+        <button type="button" className="btn btn-defaut" onClick={this.reset}>Reset</button>
       </div>
+    );
+
+
+    return (
+      <Panel content={content} title="Dự Đoán kết quả" />
     );
   }
 }
