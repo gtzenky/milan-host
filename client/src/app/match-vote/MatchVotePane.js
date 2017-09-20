@@ -76,7 +76,7 @@ class MatchVotePane extends Component {
     }
 
     var content = (
-      <div>
+      <div className="text-center">
         <VoteBoard home={home} away={away} onVote={this.vote} />
         {submitBoard}
         <button type="button" className="btn btn-primary" 
