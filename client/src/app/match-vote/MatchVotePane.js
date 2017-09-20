@@ -21,7 +21,9 @@ class MatchVotePane extends Component {
         name: "Juventus",
         logo: "https://pre09.deviantart.net/b58c/th/pre/i/2011/268/f/5/juventus_fc_psd_by_chicot101-d4aweqp.png"
       },
-      vote: null
+      selectedVote: 1,
+      vote: null,
+      startTime: new Date('2018-03-25')
     }
 
     this.setState(state);
@@ -35,7 +37,7 @@ class MatchVotePane extends Component {
 
   reset = () => {
     this.setState({
-      vote: null
+      vote: this.state.selectedVote
     })
   }
 
@@ -43,6 +45,7 @@ class MatchVotePane extends Component {
     let home = this.state.home;
     let away = this.state.away;
     let vote = this.state.vote;
+    let startTime = this.state.startTime
     let submitBoard = null;
     if (vote != null) {
       let result;
@@ -64,7 +67,7 @@ class MatchVotePane extends Component {
           <VoteBoard home={home} away={away} onVote={this.vote} />
         </div>
           {submitBoard}
-          <button type="button" className="btn btn-primary" disabled={vote == null} >Update</button>
+          <button type="button" className="btn btn-primary" disabled={vote == this.state.selectedVote || startTime.getTime() <= new Date().getTime() } >Update</button>
           <button type="button" className="btn btn-defaut" onClick={this.reset}>Reset</button>
       </div>
     );
