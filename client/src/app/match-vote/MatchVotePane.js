@@ -33,6 +33,12 @@ class MatchVotePane extends Component {
     })
   }
 
+  reset = () => {
+    this.setState({
+      vote: null
+    })
+  }
+
   render() {
     let home = this.state.home;
     let away = this.state.away;
@@ -58,6 +64,8 @@ class MatchVotePane extends Component {
           <VoteBoard home={home} away={away} onVote={this.vote} />
         </div>
           {submitBoard}
+          <button type="button" className="btn btn-primary" disabled={vote == null} >Update</button>
+          <button type="button" className="btn btn-defaut" onClick={this.reset}>Reset</button>
       </div>
     );
   }
