@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import VoteBoard from './VoteBoard.js'
 
+import Utils from './Utils.js';
+
 class MatchVotePane extends Component {
 
   constructor(props) {
@@ -24,6 +26,7 @@ class MatchVotePane extends Component {
       },
       selectedVote: 1,
       vote: null,
+      matchId: 10,
       startTime: new Date('2018-03-25')
     }
     this.setState(state);
@@ -44,7 +47,10 @@ class MatchVotePane extends Component {
   submitVote = () => {
     fetch("submit", {
       method: "POST",
-      body: JSON.stringify(this.state)
+      body: JSON.stringify({
+        matchId: this.state.matchId,
+        vote: this.state.vote
+      })
     }).then((response) => {
       console.log(response);
     }, (error) => {
