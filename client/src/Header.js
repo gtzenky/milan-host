@@ -26,8 +26,8 @@ class Header extends Component {
             <img alt="Image Logo" height="30px" src={logo} />
           </a>
         </div>
-        
       <ul className="nav navbar-nav navbar-right">
+        <li><a href="#">Point <span className="badge">42</span></a></li>
         <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
           <img src={user.picture}/> {user.displayName} <span className="caret"></span>

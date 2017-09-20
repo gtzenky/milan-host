@@ -7,6 +7,7 @@ class MatchVotePane extends Component {
   constructor(props) {
     super(props);
     this.vote = this.vote.bind(this);
+    this.submitVote = this.submitVote.bind(this);
   }
 
   componentWillMount() {
@@ -25,7 +26,6 @@ class MatchVotePane extends Component {
       vote: null,
       startTime: new Date('2018-03-25')
     }
-
     this.setState(state);
   }
 
@@ -38,6 +38,17 @@ class MatchVotePane extends Component {
   reset = () => {
     this.setState({
       vote: this.state.selectedVote
+    })
+  }
+
+  submitVote = () => {
+    fetch("submit", {
+      method: "POST",
+      body: JSON.stringify(this.state)
+    }).then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error)
     })
   }
 
@@ -67,7 +78,9 @@ class MatchVotePane extends Component {
           <VoteBoard home={home} away={away} onVote={this.vote} />
         </div>
           {submitBoard}
-          <button type="button" className="btn btn-primary" disabled={vote == this.state.selectedVote || startTime.getTime() <= new Date().getTime() } >Update</button>
+          <button type="button" className="btn btn-primary" 
+            disabled={vote == this.state.selectedVote || startTime.getTime() <= new Date().getTime() } 
+            onClick={this.submitVote} >Update</button>
           <button type="button" className="btn btn-defaut" onClick={this.reset}>Reset</button>
       </div>
     );
