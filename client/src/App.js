@@ -6,7 +6,10 @@ import MainPane from './MainPane.js'
 
 class App extends Component {
   render() {
-    fetch(`/api/me?_=${new Date().getTime()}`).then(function(response) {
+    const fetchOptions = {
+      credentials: 'include'
+    };
+    fetch(`/api/me?_=${new Date().getTime()}`, fetchOptions).then(function(response) {
       if (response.status === 200) {
         console.log(response.json());
       }
