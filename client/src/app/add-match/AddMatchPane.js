@@ -66,7 +66,6 @@ class AddMatchPane extends Component {
       </form>
     );
 
-
     return (
       <Panel content={content} title="Add Match" />
     );
