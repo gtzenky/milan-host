@@ -4,6 +4,10 @@ import Panel from './../common/Panel.js'
 
 class AddLeaguePane extends Component {
 
+  static PropTypes = {
+    leagues: PropTypes.array
+  }
+
   constructor(props) {
     super(props);
     this.submitVote = this.submitVote.bind(this);
@@ -11,17 +15,6 @@ class AddLeaguePane extends Component {
 
   componentWillMount() {
     let state = {
-      leagues: [{
-        id:1,
-        name: "serie A",
-        description: "2016-2017"
-      },
-      {
-        id:2,
-        name: "Premier",
-        description: "2017-2018"
-      }],
-
       selectLeague: -1
     }
     this.setState(state);
@@ -51,7 +44,7 @@ class AddLeaguePane extends Component {
       id: -1,
       name: "New League",
       description: "",
-    } , ...this.state.leagues];
+    } , ...this.props.leagues];
 
     let name, description;
 
@@ -64,14 +57,14 @@ class AddLeaguePane extends Component {
         name= "";
         description = "";
       }
-      return <option value={league.id} >{league.name}</option>
+      return <option key={league.id} value={league.id} >{league.name}</option>
     });
 
 
     let content = (
       <form className="form-horizontal">
         <div className="form-group">
-          <label for="league" className="col-sm-2 control-label">League</label>
+          <label htmlFor="league" className="col-sm-2 control-label">League</label>
           <div className="col-sm-10">
             <select className="form-control" value={this.state.selectLeague} onChange={this.selectLeague}>
               {leaguesOptions}
@@ -79,13 +72,13 @@ class AddLeaguePane extends Component {
           </div>
         </div>
         <div className="form-group">
-          <label for="name" className="col-sm-2 control-label">Name</label>
+          <label htmlFor="name" className="col-sm-2 control-label">Name</label>
           <div className="col-sm-10">
             <input type="text" className="form-control" id="name" value={name} placeholder="League Name"/>
           </div>
         </div>
         <div className="form-group">
-          <label for="description" className="col-sm-2 control-label">Description</label>
+          <label htmlFor="description" className="col-sm-2 control-label">Description</label>
           <div className="col-sm-10">
             <textarea rows="4" className="form-control" id="description" value={description} placeholder="Description"/>
           </div>
