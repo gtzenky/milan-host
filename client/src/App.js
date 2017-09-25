@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Header from './Header.js'
 import MainPane from './MainPane.js'
+import {Route} from 'react-router-dom'
+import LoginScreen from './app/login/LoginScreen.js'
 
 class App extends Component {
   render() {
@@ -18,8 +20,8 @@ class App extends Component {
       <div>
         <Header />
         <div className="container-fluid"> 
-        <a href="/auth/facebook" className="btn btn-primary"><span className="fa fa-facebook"></span> Facebook</a>
-        <MainPane />
+        <Route path="/login" component={LoginScreen} />
+        <Route path="/main" component={MainPane} />
         </div>
       </div>
     );
