@@ -1,12 +1,31 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Header from './Header.js'
 import MainPane from './MainPane.js'
-import {Route} from 'react-router-dom'
+import {Route, Redirect} from 'react-router-dom'
 import LoginScreen from './app/login/LoginScreen.js'
 
 class App extends Component {
+
+
+  state = {
+    isLogged : false
+  }
+
+  login = () => {
+    const fetchOptions = {
+      credentials: 'include'
+    };
+    fetch(`/api/me?_=${new Date().getTime()}`, fetchOptions).then((response) => {
+      if (response.status === 200) {
+        console.log(response.json());
+        return <MainPane />
+      } else {
+        return <Redirect to={{pathname: '/login'}}/>
+      }
+    }, () => <Redirect to={{pathname: '/login'}}/>);
+  }
+
   render() {
     const fetchOptions = {
       credentials: 'include'
@@ -18,11 +37,8 @@ class App extends Component {
     });
     return (
       <div>
-        <Header />
-        <div className="container-fluid"> 
         <Route path="/login" component={LoginScreen} />
-        <Route path="/main" component={MainPane} />
-        </div>
+        <Route path="/" render={this.login} />
       </div>
     );
   }
