@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Panel from './../common/Panel.js'
-import DateTimeField from 'react-bootstrap-datetimepicker';
+import DateTimeField from 'react-datetime';
+import moment from 'moment';
 
 class AddMatchPane extends Component {
 
@@ -60,12 +61,13 @@ class AddMatchPane extends Component {
 
     let matchs = this.state.matchs;
 
-    let home, away;
+    let home, away, startTime;
 
     let roundOptions = matchs.map((match) => {
       if (this.state.selectedMatch == match.round ) {
         home = match.home;
         away = match.away;
+        startTime = match.startTime;
       }
       return <option key={match.round} data-value value={match.round} >{match.round}</option> 
     })
@@ -117,7 +119,7 @@ class AddMatchPane extends Component {
         <div className="form-group">
           <label htmlFor="startTime" className="col-sm-2 control-label">Start Time</label>
           <div className="col-sm-10">
-            <DateTimeField inputFormat="DD/MM/YY h:mm A" showToday={true} />
+            <DateTimeField dateFormat="DD/MM/YYYY" defaultValue={new Date()} value={startTime}/>
           </div>
         </div>
       </form>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import VoteBoard from './VoteBoard.js'
 import Panel from './../common/Panel.js'
 
