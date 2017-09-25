@@ -13,7 +13,8 @@ class AddMatchPane extends Component {
   componentWillMount() {
     let matchs = this.loadLeagueData(1);
     let state = {
-      matchs: matchs
+      matchs: matchs,
+      selectedMatch: 0
     }
     this.setState(state);
   }
@@ -51,28 +52,40 @@ class AddMatchPane extends Component {
   render() {
 
 
-    var leagues = this.props.leagues;
-
+    let leagues = this.props.leagues;
+    let selectedMatch = this.state.selectedMatch;
     let name, description;
 
     let leaguesOptions = leagues.map((league) => {
       return <option key={league.id} value={league.id} >{league.name}</option>
     });
 
-    let matchs = this.state.matchs;
+    let matchs = [{
+      id : 0,
+      round: 0,
+      home: '',
+      away: '',
+      startTime: new Date()
+    },...this.state.matchs];
 
     let home, away, startTime;
+    let roundSelectDisable = !(selectedMatch == 0);
 
     let roundOptions = matchs.map((match) => {
-      if (this.state.selectedMatch == match.round ) {
+      let roundName;
+      if (selectedMatch == match.round ) {
         home = match.home;
         away = match.away;
         startTime = match.startTime;
       }
-      return <option key={match.round} data-value value={match.round} >{match.round}</option> 
+      if (match.round === 0) {
+        roundName = 'New Round';
+      } else {
+        roundName = match.round;
+      }
+      return <option key={match.round} value={match.id} >{roundName}</option> 
     })
 
-    let selectedMatch = this.state.selectedMatch;
 
 
     var content = (
@@ -93,12 +106,13 @@ class AddMatchPane extends Component {
           </div>
         </div>
 
-        <div className="form-group">
+        <div className="form-inline form-group">
           <label htmlFor="round" className="col-sm-2 control-label">Round</label>
           <div className="col-sm-10">
             <select className="form-control" name="round" id="round" onChange={(event) => this.selectRound(event.target.value)}>
               {roundOptions}
             </select>
+            <input type="text" disabled={roundSelectDisable} className='form-control' name="newRound" id="newRound"/>
           </div>
         </div>
 
@@ -120,6 +134,12 @@ class AddMatchPane extends Component {
           <label htmlFor="startTime" className="col-sm-2 control-label">Start Time</label>
           <div className="col-sm-10">
             <DateTimeField dateFormat="DD/MM/YYYY" defaultValue={new Date()} value={startTime}/>
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="col-sm-offset-2 col-sm-10">
+            <button type="button" className="btn btn-primary">Update</button>
+            <button type="button" className="btn btn-warning">Delete</button>
           </div>
         </div>
       </form>
