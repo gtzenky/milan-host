@@ -19,9 +19,8 @@ module.exports = function (passport) {
 
   // used to deserialize the user
   passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-      done(err, user);
-    });
+    User.findById(id)
+      .then(user => done(null, user));
   });
 
   // code for login (use('local-login', new LocalStategy))
@@ -50,6 +49,13 @@ module.exports = function (passport) {
         User.findOne({ where: {email: profile.emails[0].value} }).then(user => {
           if (!user) {
             User.create({
+              email : profile.emails[0].value,
+              fullName: profile.displayName,
+              isAdmin: true,
+              picture: profile.photos[0].value
+            }).then(user => done(null, user));
+          } else {
+            user.update({
               email : profile.emails[0].value,
               fullName: profile.displayName,
               isAdmin: true,
