@@ -5,7 +5,7 @@
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 // load up the user model
-var User = require('../app/models/user');
+var User = require('../app/models').User;
 
 // load the auth variables
 var configAuth = require('./auth');
@@ -47,34 +47,14 @@ module.exports = function (passport) {
       process.nextTick(function () {
 
         // find the user in the database based on their facebook id
-        User.findOne({ 'facebook.id': profile.id }, function (err, user) {
-
-          // if there is an error, stop everything and return that
-          // ie an error connecting to the database
-          if (err)
-            return done(err);
-
-          // if the user is found, then log them in
-          if (user) {
-            return done(null, user); // user found, return that user
-          } else {
-            // if there is no user found with that facebook id, create them
-            var newUser = {};
-
-            // set all of the facebook information in our user model
-            newUser.id = profile.id; // set the users facebook id                   
-            newUser.token = token; // we will save the token that facebook provides to the user                    
-            newUser.name = profile.displayName; // look at the passport user profile to see how names are returned
-            newUser.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
-
-            return done(null, newUser);
-            // // save our user to the database
-            // newUser.save(function (err) {
-            //   if (err)
-            //     throw err;
-
-            //   // if successful, return the new user
-            // });
+        User.findOne({ where: {email: profile.emails[0].value} }).then(user => {
+          if (!user) {
+            User.create({
+              email : profile.emails[0].value,
+              fullName: profile.displayName,
+              isAdmin: true,
+              picture: profile.photos[0].value
+            }).then(user => done(null, user));
           }
 
         });

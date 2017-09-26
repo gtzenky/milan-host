@@ -1,17 +1,17 @@
-// app/models/user.js
-// load the things we need
-var bcrypt   = require('bcrypt-nodejs');
-
-// create the model for users and expose it to our app
-module.exports = {
-
-  findById : (id, done) => {
-    done(null, {
-      name: 'Thong'
-    });
-  },
-
-  findOne : (facebookid, done) => {
-    done(null);
-  }
-}
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  var User = sequelize.define('User', {
+    email: DataTypes.STRING,
+    fullName: DataTypes.STRING,
+    picture: DataTypes.STRING,
+    isAdmin: DataTypes.BOOLEAN
+  }, {
+    timestamps: false,
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+      }
+    }
+  });
+  return User;
+};
