@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MainPane from './../../MainPane.js'
-import {Route, Redirect} from 'react-router-dom'
+import {Route, Redirect, Switch} from 'react-router-dom'
 
 class LoginScreen extends Component {
 
@@ -50,15 +50,17 @@ class LoginScreen extends Component {
 
     if (this.state.isLogged) {
       return (
-        <div>
-          <Redirect to="/main" />
+        <Switch>
           <Route path="/main" component={MainPane} />
-        </div>  
+          <Redirect to="/main" />
+        </Switch>
       );
     }
 
     return (
-      <a href="/auth/facebook" className="btn btn-primary"><span className="fa fa-facebook"></span> Facebook</a>
+      <div>
+        <a href="/auth/facebook" className="btn btn-primary"><span className="fa fa-facebook"></span> Facebook</a>
+      </div>
     );
   }
 }
