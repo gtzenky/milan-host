@@ -7,7 +7,8 @@ class LoginScreen extends Component {
 
   state = {
     isLogged : false,
-    pending: true
+    pending: true,
+    user: {}
   }
 
   login = () => {

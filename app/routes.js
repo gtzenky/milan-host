@@ -55,16 +55,16 @@ module.exports = function (app, passport) {
 
   // handle the callback after facebook has authenticated the user
   app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-      successRedirect: '/',
-      failureRedirect: '/'
-  }));
+    passport.authenticate('facebook'), function(req, res) {
+      res.send(req.user);
+    });
 
   app.get('/api/me', function (req, res) {
     if (req.isAuthenticated()) {
       res.json(req.user);
     } else {
-      res.json({});
+      res.status(302);
+      res.send("Need Login")
     }
   });
 
