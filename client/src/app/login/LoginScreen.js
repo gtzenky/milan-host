@@ -17,10 +17,12 @@ class LoginScreen extends Component {
     };
     fetch(`/api/me?_=${new Date().getTime()}`, fetchOptions).then((response) => {
       if (response.status === 200) {
-        this.setState({
+        response.json().then(user => {
+          this.setState({
           isLogged: true,
-          pending: false
-        })
+          pending: false,
+          user: user
+        })});
       } else {
         this.setState({
           isLogged :false,
@@ -50,9 +52,10 @@ class LoginScreen extends Component {
     }
 
     if (this.state.isLogged) {
+      let user = this.state.user;
       return (
         <Switch>
-          <Route path="/main" component={MainPane} />
+          <Route path="/main" render={() => <MainPane user={user}/> } />
           <Redirect to="/main" />
         </Switch>
       );

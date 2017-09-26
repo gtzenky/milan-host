@@ -5,45 +5,6 @@ const path = require('path');
 module.exports = function (app, passport) {
 
   // =====================================
-  // HOME PAGE (with login links) ========
-  // =====================================
-  app.get('/login', function (req, res) {
-    res.render('login.ejs'); // load the index.ejs file
-  });
-
-  // =====================================
-  // LOGIN ===============================
-  // =====================================
-  // show the login form
-  // app.get('/login', function (req, res) {
-
-  //   // render the page and pass in any flash data if it exists
-  //   res.render('login.ejs', { message: req.flash('loginMessage') });
-  // });
-
-  // process the login form
-  // app.post('/login', do all our passport stuff here);
-
-  // =====================================
-  // SIGNUP ==============================
-  // =====================================
-  // show the signup form
-  // app.get('/signup', function (req, res) {
-
-  //   // render the page and pass in any flash data if it exists
-  //   res.render('signup.ejs', { message: req.flash('signupMessage') });
-  // });
-
-  // process the signup form
-  // app.post('/signup', do all our passport stuff here);
-
-  // =====================================
-  // PROFILE SECTION =====================
-  // =====================================
-  // we will want this protected so you have to be logged in to visit
-  // we will use route middleware to verify this (the isLoggedIn function)
-
-  // =====================================
   // LOGOUT ==============================
   // =====================================
   app.get('/logout', function (req, res) {

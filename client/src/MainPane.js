@@ -7,15 +7,18 @@ import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 
 class MainPane extends Component {
 
+  static PropTypes = {
+    user: PropTypes.object.isRequired
+  }
 
   componentWillMount() {
   }
   
   render() {
-
+    let user = this.props.user;
     return (
     <div>
-      <Header />
+      <Header user={user} />
       <div className="container-fluid"> 
         <div className="content"> 
           <div>
