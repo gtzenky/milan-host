@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Panel from './../common/Panel.js'
 import AddLeaguePane from './AddLeaguePane.js'
 import AddMatchPane from './AddMatchPane.js'
+import HttpUtils from './../HttpUtils.js'
 
 class LeagueScreen extends Component {
 
@@ -12,20 +13,20 @@ class LeagueScreen extends Component {
     this.submitVote = this.submitVote.bind(this);
   }
 
+  state = {
+    leagues: []
+  }
+
   componentWillMount() {
-    let state = {
-      leagues: [{
-        id:1,
-        name: "serie A",
-        description: "2016-2017"
-      },
-      {
-        id:2,
-        name: "Premier",
-        description: "2017-2018"
-      }]
-    }
-    this.setState(state);
+
+
+    HttpUtils.fetch('/api/league')
+      .then(response => response.json())
+      .then(json => {
+        let state = {leagues: json};
+        this.setState(state);
+      })
+      .catch(error => console.log(error.statusText));
   }
 
   vote = (value) => {
