@@ -27,6 +27,8 @@ module.exports = function (app, passport) {
     }
   });
 
+
+  app.use('/api', isLoggedIn);
 };
 
 
@@ -40,7 +42,7 @@ function isLoggedIn(req, res, next) {
     return next();
   } else {
     // if they aren't redirect them to the home page
-    console.log('Redirect to /login.');
-    res.redirect('/login');
+    res.status(401);
+    res.send("Unauthorized");
   }
 }
