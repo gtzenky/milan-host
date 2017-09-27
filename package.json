@@ -18,9 +18,9 @@
     "passport-facebook": "^2.1.1",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.10.3"
+    "sequelize": "^4.10.3",
+    "sequelize-cli": "^3.0.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build && cd .. && sequelize db:migrate"
