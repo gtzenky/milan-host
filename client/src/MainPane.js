@@ -23,7 +23,7 @@ class MainPane extends Component {
         <div className="content"> 
           <div>
               <Route exact path="/main" component={MatchVotePane} />
-              <Route path="/main/add-league" component={LeagueScreen} />
+              <Route path="/main/league" component={LeagueScreen} />
           </div>
         </div>
       </div>
