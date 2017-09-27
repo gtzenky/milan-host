@@ -20,6 +20,23 @@ module.exports = (app) => {
     res.json(leagues);
   });
 
+
+  router.post('/api/league', isAdmin, (req, res) => {
+    let league = req.body;
+    let leagues = [{
+      id:1,
+      name: "serie A",
+      description: "2016-2017"
+    },
+    {
+      id:2,
+      name: "Premier",
+      description: "2017-2018"
+    }];
+
+    res.json(leagues);
+  });
+
   app.use('/', router)
 }
 

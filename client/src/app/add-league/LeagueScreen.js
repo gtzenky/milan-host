@@ -9,8 +9,6 @@ class LeagueScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.vote = this.vote.bind(this);
-    this.submitVote = this.submitVote.bind(this);
   }
 
   state = {
@@ -18,49 +16,27 @@ class LeagueScreen extends Component {
   }
 
   componentWillMount() {
+    this.loadLeagues();
+  }
 
-
+  loadLeagues = () => {
     HttpUtils.fetch('/api/league')
-      .then(response => response.json())
-      .then(json => {
-        let state = {leagues: json};
-        this.setState(state);
-      })
-      .catch(error => console.log(error.statusText));
-  }
-
-  vote = (value) => {
-    this.setState({
-      vote: value
+    .then(response => response.json())
+    .then(json => {
+      let state = {leagues: json};
+      this.setState(state);
     })
-  }
-
-  reset = () => {
-    this.setState({
-      vote: this.state.selectedVote
-    })
-  }
-
-  submitVote = () => {
-    fetch("submit", {
-      method: "POST",
-      body: JSON.stringify({
-        matchId: this.state.matchId,
-        vote: this.state.vote
-      })
-    }).then((response) => {
-      console.log(response);
-    }, (error) => {
-      console.log(error)
-    })
+    .catch(error => console.log(error.statusText));
   }
 
   render() {
 
+    let leagues = this.state.leagues;
+
     return (
       <div>
-        <AddLeaguePane leagues={this.state.leagues} />
-        <AddMatchPane leagues={this.state.leagues} />
+        <AddLeaguePane leagues={leagues} onSubmitCallback={this.loadLeagues} />
+        <AddMatchPane leagues={leagues} />
       </div>
     );
   }
