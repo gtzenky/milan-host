@@ -1,4 +1,5 @@
 
+var League = require('./../models').League;
 
 module.exports = (app) => {
   var express  = require('express');
@@ -7,35 +8,17 @@ module.exports = (app) => {
 
   //get all league
   router.get('/api/league', isAdmin, (req, res) => {
-    let leagues = [{
-      id:1,
-      name: "serie A",
-      description: "2016-2017"
-    },
-    {
-      id:2,
-      name: "Premier",
-      description: "2017-2018"
-    }];
-
-    res.json(leagues);
+    League.findAll()
+      .then(leagues => {
+        res.json(leagues)
+      })
   });
 
 
   router.post('/api/league', isAdmin, (req, res) => {
     let league = req.body;
-    let leagues = [{
-      id:1,
-      name: "serie A",
-      description: "2016-2017"
-    },
-    {
-      id:2,
-      name: "Premier",
-      description: "2017-2018"
-    }];
-
-    res.json(leagues);
+    League.upsert(league)
+    res.send();
   });
 
   router.get('/api/league/match', (req, res) =>{

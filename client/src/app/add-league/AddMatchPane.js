@@ -21,23 +21,28 @@ class AddMatchPane extends Component {
   }
 
   componentWillMount() {
-    let matchs = this.loadLeagueData(1);
-  }
-
-  loadLeagueData = (leagueId) => {
-    HttpUtils.fetch('/api/league/match')
-      .then(response => response.json())
-      .then(result => {
+    this.loadLeagueData(1)
+      .then(matchs => {
         this.setState({
-          matchs: result,
+          matchs: matchs,
           selectedMatch: 0
         });
       })
-    return matchs;
+  }
+
+  loadLeagueData = (leagueId) => {
+    return HttpUtils.fetch('/api/league/match')
+      .then(response => response.json());
   }
 
   selectLeague = (leagueId) => {
-    this.loadLeagueData(leagueId);
+    this.loadLeagueData(leagueId)
+      .then(matchs => {
+        this.setState({
+          matchs: matchs,
+          selectedMatch: leagueId
+        });
+      })
   }
 
   selectRound = (roundId) => {
