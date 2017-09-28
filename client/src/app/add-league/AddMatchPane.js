@@ -32,8 +32,7 @@ class AddMatchPane extends Component {
           matchs: result,
           selectedMatch: 0
         });
-      })
-    return matchs;
+      });
   }
 
   selectLeague = (leagueId) => {
