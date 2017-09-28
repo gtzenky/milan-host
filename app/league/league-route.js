@@ -7,6 +7,7 @@ function isAdmin(req, res, next) {
     return next()
   } else {
     res.status(403);
+    res.send("Forbidden");
   }
 }
 
@@ -20,6 +21,7 @@ function isLoggedIn(req, res, next) {
   } else {
     // if they aren't redirect them to the home page
     res.status(401);
+    res.send("Unauthorized");
   }
 }
 
