@@ -15,7 +15,7 @@ class LoginScreen extends Component {
     const fetchOptions = {
       credentials: 'include'
     };
-    fetch(`/api/me?_=${new Date().getTime()}`, fetchOptions).then((response) => {
+    fetch('/api/me', fetchOptions).then((response) => {
       if (response.status === 200) {
         response.json().then(user => {
           this.setState({
