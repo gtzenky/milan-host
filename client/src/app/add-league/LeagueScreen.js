@@ -9,11 +9,11 @@ class LeagueScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      leagues: []
+    }
   }
 
-  state = {
-    leagues: []
-  }
 
   componentWillMount() {
     this.loadLeagues();

@@ -3,39 +3,36 @@ import PropTypes from 'prop-types';
 import Panel from './../common/Panel.js'
 import DateTimeField from 'react-datetime';
 import moment from 'moment';
+import HttpUtils from './../HttpUtils.js';
 
 class AddMatchPane extends Component {
 
+  static PropTypes = {
+    leagues: PropTypes.array
+  }
+
   constructor(props) {
     super(props);
+    this.state = {
+      leagueId: 0,
+      selectedMatch: 0,
+      matchs: []
+    }
   }
 
   componentWillMount() {
     let matchs = this.loadLeagueData(1);
-    let state = {
-      matchs: matchs,
-      selectedMatch: 0
-    }
-    this.setState(state);
   }
 
   loadLeagueData = (leagueId) => {
-    let matchs = [
-      {
-        id : 1,
-        round: 1,
-        home : "AC Milan",
-        away : "Juventus",
-        startTime: new Date()
-      },
-      {
-        id : 2,
-        round: 2,
-        home : "Fiorentina",
-        away : "AC Milan",
-        startTime: new Date()
-      }
-    ]
+    HttpUtils.fetch('/api/league/match')
+      .then(response => response.json())
+      .then(result => {
+        this.setState({
+          matchs: result,
+          selectedMatch: 0
+        });
+      })
     return matchs;
   }
 

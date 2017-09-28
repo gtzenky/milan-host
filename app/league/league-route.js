@@ -5,6 +5,7 @@ module.exports = (app) => {
   var router = express.Router();
 
 
+  //get all league
   router.get('/api/league', isAdmin, (req, res) => {
     let leagues = [{
       id:1,
@@ -36,6 +37,26 @@ module.exports = (app) => {
 
     res.json(leagues);
   });
+
+  router.get('/api/league/match', (req, res) =>{
+    matchs = [
+      {
+        id : 1,
+        round: 1,
+        home : "AC Milan",
+        away : "Juventus",
+        startTime: new Date()
+      },
+      {
+        id : 2,
+        round: 2,
+        home : "Fiorentina",
+        away : "AC Milan",
+        startTime: new Date()
+      }
+    ]
+    res.json(matchs);
+  }) 
 
   app.use('/', router)
 }
