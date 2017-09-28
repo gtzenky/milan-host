@@ -63,7 +63,7 @@ class LoginScreen extends Component {
 
     return (
       <div>
-        <a href="/auth/facebook" className="btn btn-primary"><span className="fa fa-facebook"></span> Facebook</a>
+        <a href={`/auth/facebook?_=${new Date().getTime()}`} className="btn btn-primary"><span className="fa fa-facebook"></span> Facebook</a>
       </div>
     );
   }
