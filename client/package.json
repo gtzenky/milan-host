@@ -22,10 +22,10 @@
     "eject": "react-scripts eject"
   },
   "proxy": {
-    "/auth": {
+    "/healthcheck": {
       "target": "http://localhost:3000"
     },
-    "/logout": {
+    "/auth": {
       "target": "http://localhost:3000"
     },
     "/api": {
