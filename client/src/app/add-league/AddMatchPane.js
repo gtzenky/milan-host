@@ -82,7 +82,7 @@ class AddMatchPane extends Component {
       round: state.round,
       leagueId: state.leagueId,
       matchResult: state.matchResult,
-      startTime: new Date()
+      startTime: state.startTime
     }
 
     HttpUtils.fetch('/api/league/match', {
@@ -170,7 +170,8 @@ class AddMatchPane extends Component {
         <div className="form-group">
           <label htmlFor="startTime" className="col-sm-2 control-label">Start Time</label>
           <div className="col-sm-10">
-            <DateTimeField dateFormat="DD/MM/YYYY" defaultValue={new Date()} value={state.startTime}/>
+            <DateTimeField dateFormat="DD/MM/YYYY" name="startTime" value={new Date(state.startTime)} 
+            onChange={date => {this.setState({startTime: date.toISOString()})}}/>
           </div>
         </div>
         
