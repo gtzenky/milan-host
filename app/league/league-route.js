@@ -1,5 +1,6 @@
 const express  = require('express');
 const router = express.Router();
+const League = require('./../models').League;
 
 function isAdmin(req, res, next) {
   let user = req.user;
@@ -28,7 +29,7 @@ function isLoggedIn(req, res, next) {
 router.use(isLoggedIn);
 
   //get all league
-  router.get('/api/league', isAdmin, (req, res) => {
+  router.get('/league', isAdmin, (req, res) => {
     League.findAll()
       .then(leagues => {
         res.json(leagues)
@@ -36,10 +37,12 @@ router.use(isLoggedIn);
   });
 
 
-  router.post('/api/league', isAdmin, (req, res) => {
+  router.post('/league', isAdmin, (req, res) => {
     let league = req.body;
     League.upsert(league)
-    res.send();
+      .then(created => {
+        res.send();
+      })
   });
 
 router.get('/league/match', (req, res) =>{
