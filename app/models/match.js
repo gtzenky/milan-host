@@ -6,10 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     away: DataTypes.STRING,
     awayLogo: DataTypes.STRING,
     startTime: DataTypes.DATE,
-    matchResult: DataTypes.NUMBER,
-    leagueId: DataTypes.NUMBER
+    matchResult: DataTypes.INTEGER,
+    round: DataTypes.STRING,
+    leagueId: DataTypes.INTEGER
   }, {
-    timestamp: false,
+    timestamps: false,
     classMethods: {
       associate: function(models) {
         // associations can be defined here

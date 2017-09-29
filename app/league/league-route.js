@@ -47,13 +47,24 @@ router.use(isLoggedIn);
   });
 
 router.get('/league/match', (req, res) =>{
-  let leagueId = req.leagueId
+  let leagueId = req.query.leagueId;
   Match.findAll({
     where: {
       leagueId: leagueId
     }
   }).then(matchs => {
     res.json(matchs);
+  })
+});
+
+router.post('/league/match', (req, res) =>{
+  let match = req.body
+  if (!match.matchResult) {
+    match.matchResult = null;
+  } 
+  Match.upsert(match)
+  .then(created => {
+    res.send();
   })
 });
 

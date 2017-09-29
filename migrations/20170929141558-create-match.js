@@ -26,6 +26,9 @@ module.exports = {
       matchResult: {
         type: Sequelize.INTEGER
       },
+      round: {
+        type: Sequelize.STRING
+      },
       leagueId: {
         type: Sequelize.INTEGER
       }
