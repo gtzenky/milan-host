@@ -1,6 +1,7 @@
 const express  = require('express');
 const router = express.Router();
 const League = require('./../models').League;
+const Match = require('./../models').Match;
 
 function isAdmin(req, res, next) {
   let user = req.user;
@@ -46,23 +47,14 @@ router.use(isLoggedIn);
   });
 
 router.get('/league/match', (req, res) =>{
-  matchs = [
-    {
-      id : 1,
-      round: 1,
-      home : "AC Milan",
-      away : "Juventus",
-      startTime: new Date()
-    },
-    {
-      id : 2,
-      round: 2,
-      home : "Fiorentina",
-      away : "AC Milan",
-      startTime: new Date()
+  let leagueId = req.leagueId
+  Match.findAll({
+    where: {
+      leagueId: leagueId
     }
-  ];
-  res.json(matchs);
+  }).then(matchs => {
+    res.json(matchs);
+  })
 });
 
 router.get('/me', function (req, res) {
