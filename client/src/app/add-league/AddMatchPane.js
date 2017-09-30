@@ -15,8 +15,8 @@ class AddMatchPane extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      leagueId: 0,
-      matchId: 0,
+      leagueId: -1,
+      matchId: -1,
       matchs: []
     }
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -42,7 +42,7 @@ class AddMatchPane extends Component {
         this.setState({
           matchs: matchs,
           leagueId: leagueId,
-          matchId: 0,
+          matchId: -1,
           away: '',
           home: '',
           round: '',
@@ -89,7 +89,8 @@ class AddMatchPane extends Component {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(match)
-    })
+    }).then(() => this.loadLeagueData(state.leagueId))
+    .then(matchs => this.setState({matchs}))
   }
 
   render() {
@@ -104,8 +105,8 @@ class AddMatchPane extends Component {
     });
 
     let matchs = [{
-      id : 0,
-      round: 0,
+      id : -1,
+      round: -1,
       home: '',
       away: '',
       startTime: new Date()
@@ -114,7 +115,7 @@ class AddMatchPane extends Component {
 
     let roundOptions = matchs.map((match) => {
       let roundName;
-      if (match.round === 0) {
+      if (match.round === -1) {
         roundName = 'New Round';
       } else {
         roundName = match.round;
@@ -130,7 +131,7 @@ class AddMatchPane extends Component {
           <label htmlFor="league" className="col-sm-2 control-label">League</label>
           <div className="col-sm-10">
             <select className="form-control" id="select-league" onChange={(event) => this.selectLeague(event.target.value)}>
-              <option key={0} value={0} >Select League</option> 
+              <option key={-1} value={-1} >Select League</option> 
               {leaguesOptions}
             </select>
           </div>
