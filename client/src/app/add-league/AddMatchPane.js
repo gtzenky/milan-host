@@ -93,6 +93,18 @@ class AddMatchPane extends Component {
     .then(matchs => this.setState({matchs}))
   }
 
+  activeMatch = () => {
+    let state = this.state;
+    if (state.matchId) {
+      let matchId = state.matchId;
+      HttpUtils.fetch('/api/league/match/active', {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({matchId})
+      })
+    }
+  }
+
   render() {
 
     let state = this.state;
@@ -190,7 +202,8 @@ class AddMatchPane extends Component {
 
         <div className="form-group">
           <div className="col-sm-offset-2 col-sm-10">
-            <button type="button" className="btn btn-primary" disabled={state.leagueId == 0} onClick={this.updateMatch}>Update</button>
+            <button type="button" className="btn btn-primary" disabled={state.leagueId == -1} onClick={this.updateMatch}>Update</button>
+            <button type="button" className="btn btn-success" disabled={state.leagueId == -1} onClick={this.activeMatch}>Active</button>
             <button type="button" className="btn btn-warning">Delete</button>
           </div>
         </div>

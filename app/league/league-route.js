@@ -2,6 +2,10 @@ const express  = require('express');
 const router = express.Router();
 const League = require('./../models').League;
 const Match = require('./../models').Match;
+const VoteResult = require('./../models').VoteResult;
+const Setting = require('./../models').Setting;
+
+const ACTIVE_MATCH = "active.match";
 
 function isAdmin(req, res, next) {
   let user = req.user;
@@ -68,8 +72,38 @@ router.post('/league/match', (req, res) =>{
   })
 });
 
+router.post('/league/match/active', (req, res) =>{
+  let data = req.body
+  if (data.matchId) {
+    let setting = {
+      key: ACTIVE_MATCH,
+      value: data.matchId
+    }
+    Setting.findOne({
+      where: {
+        key: ACTIVE_MATCH
+      }
+    }).then(result => {
+      if (!result) {
+        return Setting.create(setting);
+      } else {
+        return result.update(setting);
+      }
+    })
+  } 
+});
+
 router.get('/me', function (req, res) {
   res.json(req.user)
+});
+
+router.get('/vote', (req, res) =>{
+  let now = new Date();
+  Match.findOne({
+    where: {
+      startTime: {}
+    }
+  })
 });
 
 module.exports = router;
