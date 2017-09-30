@@ -98,12 +98,37 @@ router.get('/me', function (req, res) {
 });
 
 router.get('/vote', (req, res) =>{
-  let now = new Date();
-  Match.findOne({
+  let user = req.user;
+  Setting.findOne({
     where: {
-      startTime: {}
+      key: ACTIVE_MATCH
+    }
+  }).then(setting => {
+    if(setting) {
+      let matchId = setting.value;
+      let getVoteResult = VoteResult.findOne({
+        where : {
+          userId: user.id,
+          matchId:  matchId
+        }
+      })
+      let getMatch = Match.findById(matchId)
+
+      Promise.all([getVoteResult, getMatch])
+        .then((result) => {
+          let [voteResult, match] = result;
+          return res.json({
+            match,
+            voteResult: voteResult != null ? voteResult.voteResult : null
+          })
+        }) 
+    } else {
+      return res.json({});
     }
   })
+
 });
 
+router.post('/vote', (req, res) => {
+})
 module.exports = router;

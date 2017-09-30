@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import VoteBoard from './VoteBoard.js'
 import Panel from './../common/Panel.js'
+import HttpUtils from './../HttpUtils.js'
 
 class MatchVotePane extends Component {
 
@@ -8,26 +9,45 @@ class MatchVotePane extends Component {
     super(props);
     this.vote = this.vote.bind(this);
     this.submitVote = this.submitVote.bind(this);
+    let state = {
+      match: {},
+      home: {},
+      away: {},
+      selectedVote: null,
+      vote: null,
+      matchId: null,
+      startTime: new Date()
+    }
+    this.state = state;
   }
 
   componentWillMount() {
-    let state = {
-      home: {
-        id: 1,
-        name: "AC Milan",
-        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-V07amgpuoklt_aTDEyepDF5cRC_8G1LKj-x-M-PeK-RJhlBJQw"
-      },
-      away: {
-        id: 2,
-        name: "Juventus",
-        logo: "https://pre09.deviantart.net/b58c/th/pre/i/2011/268/f/5/juventus_fc_psd_by_chicot101-d4aweqp.png"
-      },
-      selectedVote: 1,
-      vote: null,
-      matchId: 10,
-      startTime: new Date('2018-03-25')
-    }
-    this.setState(state);
+
+    HttpUtils.fetch('/api/vote')
+      .then(response => response.json())
+      .then(result => {
+        let match = result.match;
+        let vote = result.vote;
+        let selectedVote = vote == null ? null : vote.voteResult
+        let state = {
+          match: match,
+          home: {
+            id: -1,
+            name: match.home,
+            logo: match.homeLogo
+          },
+          away: {
+            id: 1,
+            name: match.away,
+            logo: match.awayLogo
+          },
+          selectedVote: selectedVote,
+          vote: null,
+          matchId: match.id,
+          startTime: new Date(match.startTime)
+        }
+        this.setState(state);
+      })
   }
 
   vote = (value) => {
@@ -57,6 +77,7 @@ class MatchVotePane extends Component {
   }
 
   render() {
+    let match = this.state.match;
     let home = this.state.home;
     let away = this.state.away;
     let vote = this.state.vote;
@@ -76,6 +97,7 @@ class MatchVotePane extends Component {
 
     var content = (
       <div className="text-center">
+        <h3>{match.round} {startTime.toLocaleString()}</h3>
         <VoteBoard home={home} away={away} onVote={this.vote} />
         {submitBoard}
         <button type="button" className="btn btn-primary" 
