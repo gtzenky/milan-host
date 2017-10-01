@@ -51,14 +51,14 @@ module.exports = function (passport) {
             User.create({
               email : profile.emails[0].value,
               fullName: profile.displayName,
-              isAdmin: true,
+              isAdmin: false,
               picture: profile.photos[0].value
             }).then(user => done(null, user));
           } else {
             user.update({
               email : profile.emails[0].value,
               fullName: profile.displayName,
-              isAdmin: true,
+              isAdmin: false,
               picture: profile.photos[0].value
             }).then(user => done(null, user));
           }

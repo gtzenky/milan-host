@@ -9,7 +9,7 @@ const ACTIVE_MATCH = "active.match";
 
 function isAdmin(req, res, next) {
   let user = req.user;
-  if (user.isAdmin) {
+  if (!user.isAdmin) {
     return next()
   } else {
     res.status(403);
@@ -132,20 +132,31 @@ router.get('/vote', (req, res) =>{
 router.post('/vote', (req, res) => {
   let vote = req.body;
   vote.userId = req.user.id;
-  VoteResult.findOrCreate({
-    where: {
-      userId: vote.userId,
-      matchId: vote.matchId
-    },
-    defaults: {
-      voteResult: vote.voteResult
-    }
-  }).then((result) => {
-    let [row, created] = result;
-    if (!created) {
-       return row.update(vote);
-    }
-    return row
-  }).then(row => res.json(row))
+  Match.findById(vote.matchId)
+  .then(match => {
+    if (match) {
+      let now = new Date();
+      let startTime = new Date(match.startTime);
+      if (now < startTime) return match;
+    } 
+    res.status(500);
+    res.send("match expired");
+  }).then(() => {
+    VoteResult.findOrCreate({
+      where: {
+        userId: vote.userId,
+        matchId: vote.matchId
+      },
+      defaults: {
+        voteResult: vote.voteResult
+      }
+    }).then((result) => {
+      let [row, created] = result;
+      if (!created) {
+         return row.update(vote);
+      }
+      return row
+    }).then(row => res.json(row))
+  })
 })
 module.exports = router;
