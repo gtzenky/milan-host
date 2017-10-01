@@ -27,8 +27,7 @@ class MatchVotePane extends Component {
       .then(response => response.json())
       .then(result => {
         let match = result.match;
-        let vote = result.vote;
-        let selectedVote = vote == null ? null : vote.voteResult
+        let selectedVote = result.vote;
         let state = {
           match: match,
           home: {
@@ -42,7 +41,7 @@ class MatchVotePane extends Component {
             logo: match.awayLogo
           },
           selectedVote: selectedVote,
-          vote: null,
+          vote: selectedVote,
           matchId: match.id,
           startTime: new Date(match.startTime)
         }
@@ -63,14 +62,18 @@ class MatchVotePane extends Component {
   }
 
   submitVote = () => {
-    fetch("submit", {
+    HttpUtils.fetch("/api/vote", {
       method: "POST",
+      headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         matchId: this.state.matchId,
-        vote: this.state.vote
+        voteResult: this.state.vote
       })
-    }).then((response) => {
-      console.log(response);
+    }).then(response => response.json())
+    .then((vote) => {
+      this.setState({
+        selectedVote: vote.voteResult
+      })
     }, (error) => {
       console.log(error)
     })
@@ -83,8 +86,8 @@ class MatchVotePane extends Component {
     let vote = this.state.vote;
     let startTime = this.state.startTime
     let submitBoard = null;
+    let result, matchResult;
     if (vote != null) {
-      let result;
       if (vote == 0) {
         result = "Draw";
       } else if (vote == home.id) {
@@ -92,8 +95,18 @@ class MatchVotePane extends Component {
       } else if (vote == away.id) {
         result = away.name;
       }
-      submitBoard = <p> {result} </p>;
     }
+    
+    if (match != null) {
+      if (match.matchResult == 0) {
+        matchResult = "Draw";
+      } else if (match.matchResult == home.id) {
+        matchResult = home.name;
+      } else if (match.matchResult == away.id) {
+        matchResult = away.name;
+      }
+    }
+    submitBoard = <h4>Đang chọn: {result} <br/> Kết quả: {matchResult} </h4>;
 
     var content = (
       <div className="text-center">

@@ -119,7 +119,7 @@ router.get('/vote', (req, res) =>{
           let [voteResult, match] = result;
           return res.json({
             match,
-            voteResult: voteResult != null ? voteResult.voteResult : null
+            vote: voteResult != null ? voteResult.voteResult : null
           })
         }) 
     } else {
@@ -130,5 +130,22 @@ router.get('/vote', (req, res) =>{
 });
 
 router.post('/vote', (req, res) => {
+  let vote = req.body;
+  vote.userId = req.user.id;
+  VoteResult.findOrCreate({
+    where: {
+      userId: vote.userId,
+      matchId: vote.matchId
+    },
+    defaults: {
+      voteResult: vote.voteResult
+    }
+  }).then((result) => {
+    let [row, created] = result;
+    if (!created) {
+       return row.update(vote);
+    }
+    return row
+  }).then(row => res.json(row))
 })
 module.exports = router;
