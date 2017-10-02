@@ -204,7 +204,7 @@ class AddMatchPane extends Component {
           <div className="col-sm-offset-2 col-sm-10">
             <button type="button" className="btn btn-primary" disabled={state.leagueId == -1} onClick={this.updateMatch}>Update</button>
             <button type="button" className="btn btn-success" disabled={state.leagueId == -1} onClick={this.activeMatch}>Active</button>
-            <button type="button" className="btn btn-warning">Delete</button>
+            {/* <button type="button" className="btn btn-warning">Delete</button> */}
           </div>
         </div>
       </form>

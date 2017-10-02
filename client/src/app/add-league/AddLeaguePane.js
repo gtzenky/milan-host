@@ -114,7 +114,7 @@ class AddLeaguePane extends Component {
         <div className="form-group">
           <div className="col-sm-offset-2 col-sm-10">
             <button type="button" className="btn btn-primary" onClick={() => this.updateLeague()}>Update</button>
-            <button type="button" className="btn btn-warning">Delete</button>
+            {/* <button type="button" className="btn btn-warning">Delete</button> */}
           </div>
         </div>
       </div>

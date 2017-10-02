@@ -27,25 +27,27 @@ class MatchVotePane extends Component {
       .then(response => response.json())
       .then(result => {
         let match = result.match;
-        let selectedVote = result.vote;
-        let state = {
-          match: match,
-          home: {
-            id: -1,
-            name: match.home,
-            logo: match.homeLogo
-          },
-          away: {
-            id: 1,
-            name: match.away,
-            logo: match.awayLogo
-          },
-          selectedVote: selectedVote,
-          vote: selectedVote,
-          matchId: match.id,
-          startTime: new Date(match.startTime)
+        if (match) {
+          let selectedVote = result.vote;
+          let state = {
+            match: match,
+            home: {
+              id: -1,
+              name: match.home,
+              logo: match.homeLogo
+            },
+            away: {
+              id: 1,
+              name: match.away,
+              logo: match.awayLogo
+            },
+            selectedVote: selectedVote,
+            vote: selectedVote,
+            matchId: match.id,
+            startTime: new Date(match.startTime)
+          }
+          this.setState(state);
         }
-        this.setState(state);
       })
   }
 
