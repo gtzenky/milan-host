@@ -20,10 +20,10 @@ class Header extends Component {
         </div>
 
       
-        {/* <ul className="nav navbar-nav">
+        <ul className="nav navbar-nav">
           <li><Link to="/main">Home</Link></li>
           <li><Link to="/main/league">League</Link></li>
-        </ul> */}
+        </ul>
 
         <ul className="nav navbar-nav navbar-right">
           {/* <li><a href="#">Point <span className="badge">42</span></a></li> */}
