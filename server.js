@@ -47,7 +47,7 @@ leagueRouter.use(nocache());
 app.use('/api', leagueRouter);
 
 // static files ===============================================================
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use('/main', express.static(path.join(__dirname, 'client/build')));
 
 // launch ======================================================================
 const port = process.env.PORT || 3000;
