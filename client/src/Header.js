@@ -22,7 +22,7 @@ class Header extends Component {
       
         <ul className="nav navbar-nav">
           <li><Link to="/main">Home</Link></li>
-          <li><Link to="/main/league">League</Link></li>
+          {/* <li><Link to="/main/league">League</Link></li> */}
         </ul>
 
         <ul className="nav navbar-nav navbar-right">
