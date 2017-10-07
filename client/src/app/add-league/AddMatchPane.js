@@ -55,7 +55,9 @@ class AddMatchPane extends Component {
     let match = {
       matchId: matchId,
       away: '',
+      homeLogo: '',
       home: '',
+      awayLogo: '',
       round: '',
       leagueId: state.leagueId,
       startTime: new Date(),
@@ -63,9 +65,11 @@ class AddMatchPane extends Component {
     }
     let selectMatch = this.state.matchs.find(match => match.id == matchId);
     if (selectMatch) {
-      let {away, home, round, startTime, matchResult} = selectMatch;
+      let {away, awayLogo, home, homeLogo, round, startTime, matchResult} = selectMatch;
       match.away = away;
+      match.awayLogo = awayLogo;
       match.home = home;
+      match.homeLogo = homeLogo;
       match.round = round;
       match.startTime = startTime;
       match.matchResult = matchResult;
@@ -78,7 +82,9 @@ class AddMatchPane extends Component {
     let match = {
       id: state.matchId,
       away: state.away,
+      awayLogo: state.awayLogo,
       home: state.home,
+      homeLogo: state.homeLogo,
       round: state.round,
       leagueId: state.leagueId,
       matchResult: state.matchResult,
@@ -174,9 +180,23 @@ class AddMatchPane extends Component {
         </div>
 
         <div className="form-group">
+          <label htmlFor="home" className="col-sm-2 control-label">Home Logo Link</label>
+          <div className="col-sm-10">
+            <input type="text" onChange={this.handleInputChange} className="form-control" name="homeLogo" id="homeLogo" value={state.homeLogo}/>
+          </div>
+        </div>
+
+        <div className="form-group">
           <label htmlFor="home" className="col-sm-2 control-label">Away</label>
           <div className="col-sm-10">
             <input type="text" onChange={this.handleInputChange} className="form-control" name="away" id="away" value={state.away}/>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="home" className="col-sm-2 control-label">Away Logo Link</label>
+          <div className="col-sm-10">
+            <input type="text" onChange={this.handleInputChange} className="form-control" name="awayLogo" id="awayLogo" value={state.awayLogo}/>
           </div>
         </div>
 
